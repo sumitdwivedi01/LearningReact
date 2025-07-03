@@ -39,3 +39,8 @@
 .blank{
   background-color: grey;
 }
+.line{
+  height: 2px;
+  width: 100vw;
+  border: 2px solid rgb(104, 157, 197);
+}

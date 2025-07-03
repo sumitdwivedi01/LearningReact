@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function TextForm({ heading }) {
+export default function TextForm({ heading , mode}) {
   const handleUpClick = () => {
     // console.log("UpperCase Was Clicked"+text);
     let newText = text.toUpperCase();
@@ -45,22 +45,24 @@ export default function TextForm({ heading }) {
   return (
     <>
       <div className="container mb-3">
-        <label htmlFor="myBox" className="form-label"> <h2>{heading}</h2></label>
+        <label htmlFor="myBox" className={`form-label text-${mode === 'light' ? 'dark' : 'light'}`}> <h2>{heading}</h2></label>
         <textarea className="form-control" id="myBox"rows="10"onChange={handleOnChange}value={text} placeholder="Enter Your Text here !"></textarea>
       </div>
-      <button className="btn btn-primary mx-2" onClick={handleUpClick}>Convert to Uppercase </button>
-      <button className="btn btn-primary mx-2" onClick={handleLowClick}>Convert to Lowercase </button>
-      <button className="btn btn-primary mx-2" onClick={handleInvert}>Invert text</button>
-      <button className="btn btn-primary mx-2" onClick={handleClearClick}>Clear TextArea</button> 
-      <button className="btn btn-primary mx-2" id="copyBtn" onClick={copyText}>Copy to Clipboard</button> 
+      <button className={`btn btn-primary mx-2 text-light`} onClick={handleUpClick}>Convert to Uppercase </button>
+      <button className={`btn btn-primary mx-2 text-light`} onClick={handleLowClick}>Convert to Lowercase </button>
+      <button className={`btn btn-primary mx-2 text-light`} onClick={handleInvert}>Invert text</button>
+      <button className={`btn btn-primary mx-2 text-light`} onClick={handleClearClick}>Clear TextArea</button> 
+      <button className={`btn btn-primary mx-2 text-light`} id="copyBtn" onClick={copyText}>Copy to Clipboard</button> 
 
-        <div className="container my-3">
+        <div className={`container my-3 text-${mode === 'light' ? 'dark' : 'light'}`}>
             <h2>Your Summary</h2>
             <p>{text.split(" ").length + text.split("\n").length -2} Words And {text.length} Character</p>
             <h3>Reading time is : {.008 *(text.split(" ").length + text.split("\n").length -2)} Minutes</h3>
             <h1>Preview</h1>
-            <p>{text}</p>
+            <p>{text.length>0 ? text : "Enter some text to the Text box to preview it here !"}</p>
         </div>
     </>
   );
 }
+
+// 13:37
