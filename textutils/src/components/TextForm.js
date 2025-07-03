@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 
-export default function TextForm({ heading , mode}) {
+export default function TextForm({ heading , mode , showAlert}) {
   const handleUpClick = () => {
     // console.log("UpperCase Was Clicked"+text);
     let newText = text.toUpperCase();
     setText(newText);
     document.getElementById("copyBtn").textContent="Copy to Clipboard";
+    showAlert("Text has been converted to UpperCase ✅" , "success")
   };
   const handleLowClick = () => {
     let newText = text.toLowerCase();
     setText(newText);
     document.getElementById("copyBtn").textContent="Copy to Clipboard";
+    showAlert("Text has been converted to LowerCase ✅" , "success")
   };
   const handleInvert = () => {
     let newText = Array.from(text);
@@ -20,6 +22,7 @@ export default function TextForm({ heading , mode}) {
     }
     setText(InverseText);
     document.getElementById("copyBtn").textContent="Copy to Clipboard";
+    showAlert("Text has been Inverted ✅" , "success")
   };
   const handleOnChange = (event) => {
     setText(event.target.value);
@@ -28,12 +31,13 @@ export default function TextForm({ heading , mode}) {
   const handleClearClick = () => {
     setText('');
     document.getElementById("copyBtn").textContent="Copy to Clipboard";
+    showAlert("Text Area has been Cleared ✅" , "success")
   };
   const copyText = () => {
     navigator.clipboard.writeText(text);
     console.log("Copied to Clipboard");
     document.getElementById("copyBtn").textContent="Copied to Clipboard✅";
-    
+    showAlert("Copied to Clipboard ✅" , "success")
   };
   const [text, setText] = useState("");
 
@@ -59,7 +63,12 @@ export default function TextForm({ heading , mode}) {
             <p>{text.split(" ").length + text.split("\n").length -2} Words And {text.length} Character</p>
             <h3>Reading time is : {.008 *(text.split(" ").length + text.split("\n").length -2)} Minutes</h3>
             <h1>Preview</h1>
-            <p>{text.length>0 ? text : "Enter some text to the Text box to preview it here !"}</p>
+            <p  style={{
+                whiteSpace: "pre-wrap",
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
+              }} >
+                {text.length>0 ? text : "Enter some text to the Text box to preview it here !"}</p>
         </div>
     </>
   );

@@ -44,3 +44,9 @@
   width: 100vw;
   border: 2px solid rgb(104, 157, 197);
 }
+.alertBox{
+  max-height: 60px;
+  min-height: 60px;
+  box-sizing: content-box;
+  margin-top: 10px;
+}
