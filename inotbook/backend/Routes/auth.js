@@ -3,11 +3,12 @@
  import {body , validationResult} from "express-validator";
  import bcrypt from "bcryptjs";
  import jwt from "jsonwebtoken";
+ import fetchuser from "../middleware/fetchuser.js"; 
 const router = express.Router();
 
-const JWT_SECRET=`YeahHer0Buddy@14`
+const JWT_SECRET=`YeahHer0Buddy@14`;
 
-//Route 1 | create a user using: POST "api/auth/createuser" .Doesn't require AUTH 
+//Route 1 : create a user using: POST "api/auth/createuser" .Doesn't require AUTH 
  router.post('/createuser',[
    body('name','Enter a Valid name ').isLength({min:3}),
    body('password','Password must have atleast 5 characters').isLength({min:5}),
@@ -49,7 +50,7 @@ const JWT_SECRET=`YeahHer0Buddy@14`
     
  })
 
- //Route 2 | login a preexisting user using: POST "api/auth/login" .Doesn't require AUTH with email and password 
+ //Route 2 : Authenticate preexisting user using: POST "api/auth/login" .Doesn't require AUTH with email and password 
   router.post('/login',[
    body('password','Password must have atleast 5 characters').exists(),
    body('email','Please Enter a Valid email').isEmail()
@@ -85,7 +86,17 @@ const JWT_SECRET=`YeahHer0Buddy@14`
     }
  })
 
-
-
+ //Route 3 : Get logged in user Details : POST "api/auth/getuser" Login required
+ router.post('/getuser', fetchuser ,async (req , res)=>{
+ try {
+  const userId = req.user.id;
+  const user =await User.findById(userId).select("-password");
+  res.send(user);
+  
+ } catch(error){
+      console.error(error.message);
+      res.status(500).send({error:"Internal server error"});
+    }
+  })
  
  export default router;
