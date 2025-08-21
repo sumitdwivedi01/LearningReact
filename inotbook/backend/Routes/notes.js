@@ -48,14 +48,15 @@ const router = express.Router();
 
  //Route 3 : update a existing Note using : PUT "api/notes/updatenote" Login required
  router.put('/updatenote/:id',fetchuser , async (req , res)=>{
-    const{title , description , tag ,date} = req.body;
+    const{title , description , tag } = req.body;
     try {
     // create a new user
     const newNote={};
     if(title){newNote.title=title};
     if(description){newNote.description=description};
     if(tag){newNote.tag=tag};
-    if(date){newNote.date=date};
+    
+    newNote.date = Date.now();
 
     //find the note to be updated and update it 
     let note = await Notes.findById(req.params.id);
