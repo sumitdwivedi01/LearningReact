@@ -56,20 +56,21 @@ const JWT_SECRET=`YeahHer0Buddy@14`;
    body('email','Please Enter a Valid email').isEmail()
 
  ] ,async (req , res)=>{
+  let success='false'
      const error =validationResult(req);
     if(!error.isEmpty()){
-      return res.status(400).json({errors: error.array()});
+      return res.status(400).json({success,errors: error.array()});
     }
 
     const{email,password}=req.body;
     try {
       let user = await User.findOne({email});
       if(!user){
-        return res.status(500).send({error:"Please try to login with correct credentials"});
+        return res.status(500).send({success ,error:"Please try to login with correct credentials"});
       }
       const passwordCompare = await bcrypt.compare(password , user.password);//matching current password with the pre exist password of the user it will internally matches and handles all the hasesh and all , returns true and false
       if(!passwordCompare){
-        return res.status(500).send({error:"Please try to login with correct credentials"});
+        return res.status(500).send({success ,error:"Please try to login with correct credentials"});
       }
       
         const data = {
@@ -78,11 +79,12 @@ const JWT_SECRET=`YeahHer0Buddy@14`;
         }
       }
       const authToken = jwt.sign(data ,JWT_SECRET);
-      res.json({authToken});
+      success=true;
+      res.json({success ,authToken});
 
     } catch(error){
       console.error(error.message);
-      res.status(500).send({error:"Internal server error"});
+      res.status(500).send({success ,error:"Internal server error"});
     }
  })
 
