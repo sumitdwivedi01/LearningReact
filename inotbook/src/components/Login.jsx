@@ -1,7 +1,7 @@
 import React ,{useContext , useState}from 'react';
 import { DarkContext } from "../context/Theme/DarkTheme";
-import {useNavigate} from "react-router-dom"
-const Login = () => {
+import {useNavigate} from "react-router-dom";
+const Login = ({showAlert}) => {
     const navigate = useNavigate();
     const {theme} = useContext(DarkContext);
     const [credentials, setCredentials] = useState({email:"",password:""})
@@ -18,12 +18,12 @@ const Login = () => {
     const json = await response.json();
     console.log(json);
     if(json.success){
-        //Save the auth token and redirect
-        localStorage.setItem('token', json.authtoken);
+        localStorage.setItem('token', json.authToken);
         navigate("/");
+        showAlert("Successfully Logged In" ,"success");
     }
     else{
-        alert("Invalid Credentials");
+        showAlert("Login Failed Try with Correct credentials" ,"danger");
     }
 }
 const onChange=(e)=>{

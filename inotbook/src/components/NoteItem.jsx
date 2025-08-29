@@ -2,7 +2,7 @@ import React, { useContext} from 'react';
 import NoteContext from '../context/notes/NoteContext';
 
 
-function NoteItem({ note ,updateNote}) {
+function NoteItem({ note ,updateNote , showAlert}) {
     
     const indTime = (time) => {
         const dateobj = new Date(time);
@@ -14,9 +14,11 @@ function NoteItem({ note ,updateNote}) {
 
         const handleDelete=()=>{
             deleteNote(note._id);
+            showAlert("Note Deleted Successfully","success");
         }
         const handleEdit=()=>{
             updateNote(note);
+            document.body.classList.add("lock-scroll");
         }
     return (
         <div className="col-md-4 d-flex my-3">

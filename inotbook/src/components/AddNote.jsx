@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import NoteContext from '../context/notes/NoteContext';
 import { DarkContext } from "../context/Theme/DarkTheme";
-const AddNote = () => {
+const AddNote = ({showAlert}) => {
   const {theme} = useContext(DarkContext);
   const context = useContext(NoteContext);
   const { addNote } = context;
@@ -11,6 +11,7 @@ const AddNote = () => {
     document.getElementById("tag").value ="";
     document.getElementById("title").value ="";
     document.getElementById("description").value ="";
+    showAlert("A New Note Added Successfully","success");
   }
   const handleChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value })

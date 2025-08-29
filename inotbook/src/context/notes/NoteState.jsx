@@ -17,7 +17,7 @@ const NoteState =({children})=>{
                 method:'GET',
                 headers:{
                     "Content-Type":"application/json",
-                    "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhhNzIzYThiZWZmMzllZTNmMWVlMWU3In0sImlhdCI6MTc1NTc4NDEwNH0.IRXxLB6DTBP9TrSjlsgMz3LeMcrXY4NQ3TNFC5dzfF8"
+                    "auth-token":localStorage.getItem('token'),
                 }
             });
             const json = await response.json();
@@ -34,7 +34,7 @@ const NoteState =({children})=>{
                 method:'POST',
                 headers:{
                     "Content-Type":"application/json",
-                    "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhhNzIzYThiZWZmMzllZTNmMWVlMWU3In0sImlhdCI6MTc1NTc4NDEwNH0.IRXxLB6DTBP9TrSjlsgMz3LeMcrXY4NQ3TNFC5dzfF8"
+                    "auth-token":localStorage.getItem('token'),
                 },
                 body:JSON.stringify({title , description , tag})
             });
@@ -51,7 +51,7 @@ const NoteState =({children})=>{
                 method:'DELETE',
                 headers:{
                     "Content-Type":"application/json",
-                    "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhhNzIzYThiZWZmMzllZTNmMWVlMWU3In0sImlhdCI6MTc1NTc4NDEwNH0.IRXxLB6DTBP9TrSjlsgMz3LeMcrXY4NQ3TNFC5dzfF8"
+                    "auth-token":localStorage.getItem('token'),
                 }
             });
             const newNotes = notes.filter((note)=>{return note._id !== id});
@@ -66,7 +66,7 @@ const NoteState =({children})=>{
                 method:'PUT',
                 headers:{
                     "Content-Type":"application/json",
-                    "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhhNzIzYThiZWZmMzllZTNmMWVlMWU3In0sImlhdCI6MTc1NTc4NDEwNH0.IRXxLB6DTBP9TrSjlsgMz3LeMcrXY4NQ3TNFC5dzfF8"
+                    "auth-token":localStorage.getItem('token'),
                 },
                 body:JSON.stringify({title , description , tag})
             });

@@ -1,6 +1,6 @@
 
 import './App.css'
-import {useContext , useEffect} from 'react';
+import {useContext , useEffect , useState} from 'react';
 import { Routes, Route ,Link } from "react-router-dom";
 import Home from './components/home';
 import About from './components/about';
@@ -9,11 +9,11 @@ import Alert from './components/Alert';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Navbar from './components/Navbar';
-
 import { DarkContext } from "./context/Theme/DarkTheme";
+
 function App() {
-  
   const {theme} = useContext(DarkContext);
+  
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -24,20 +24,31 @@ function App() {
      document.body.style.backgroundImage ="linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%)";
   }
   }, [theme]);
+  const [alert, setAlert] = useState(null);
+  const showAlert =(message , type)=>{
+      setAlert({
+        msg:message,
+        type:type
+      })
+      setTimeout(() => {
+        setAlert(null);
+      }, 1500);
+  }
   return (
     
     <NoteState>
     <>
     <Navbar/>
-    <Alert msg={"Note Deleted Sucessfully"}/>
-
+    <div className="container alertBox">
+      <Alert alert={alert} />
+      </div>
     <div className={`container `}>
     <Routes>
   
-        <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<Home showAlert={showAlert} />}/>
         <Route path="/about" element={<About/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/signup" element={<SignUp/>} />
+        <Route path="/login" element={<Login showAlert={showAlert} />} />
+        <Route path="/signup" element={<SignUp showAlert={showAlert} />} />
 
       </Routes>      
     </div>

@@ -16,16 +16,17 @@ const JWT_SECRET=`YeahHer0Buddy@14`;
 
  ] ,async (req , res)=>{
   //if there is any error return bad req and print the error message
+    let success = false;
     const error =validationResult(req);
     if(!error.isEmpty()){
-      return res.status(400).json({errors: error.array()});
+      return res.status(400).json({ success ,errors: error.array()});
     }
     try{
 
       //check whether the user with this email already exists
       let user = await User.findOne({email:req.body.email})
       if(user){
-        return res.status(400).json({error:"This email already exist"});
+        return res.status(400).json({ success ,error:"This email already exist"});
       }
       const salt= await bcrypt.genSalt(15);
       const secPass = await bcrypt.hash(req.body.password,salt);
@@ -41,11 +42,12 @@ const JWT_SECRET=`YeahHer0Buddy@14`;
           id:user.id
         }
       }
+      success=true;
       const authToken = jwt.sign(data ,JWT_SECRET);
-      res.json({authToken});
+      res.json({success,authToken});
     }catch(error){
       console.error(error.message);
-      res.status(500).send({error:"Internal server error"});
+      res.status(500).send({success ,error:"Internal server error"});
     }
     
  })
@@ -56,7 +58,7 @@ const JWT_SECRET=`YeahHer0Buddy@14`;
    body('email','Please Enter a Valid email').isEmail()
 
  ] ,async (req , res)=>{
-  let success='false'
+  let success=false;
      const error =validationResult(req);
     if(!error.isEmpty()){
       return res.status(400).json({success,errors: error.array()});
