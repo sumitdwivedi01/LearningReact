@@ -43,7 +43,7 @@ const ViewNote = () => {
       >
         <span className={`badge ${theme==='dark'?'bg-light text-dark':'bg-dark text-light'} rounded-pill px-3 py-2 `} >{note.tag || "General"}</span>
         <h3 className="fw-bold my-3">{note.title}</h3>
-        <p className="fs-6" style={{ lineHeight: "1.7" }}>{note.description}</p>
+        <p className="fs-6" style={{ lineHeight: "1.7" , whiteSpace: "pre-line"}}>{note.description}</p>
         <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
           <small className={`text-${theme==='light'?'dark':'light'}`}>
             🕒 {new Date(note.date).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}
