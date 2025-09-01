@@ -7,6 +7,7 @@ const Login = ({showAlert}) => {
     const [credentials, setCredentials] = useState({email:"",password:""})
     const handleClickSubmit= async(e)=>{
         e.preventDefault();
+        try {
         const response = await fetch("http://localhost:5000/api/auth/login" ,{
                 method:'POST',
                 headers:{
@@ -25,6 +26,10 @@ const Login = ({showAlert}) => {
     else{
         showAlert("Login Failed Try with Correct credentials" ,"danger");
     }
+     } catch (error) {
+            showAlert("Login Failed Due To Internal Sever Error" ,"danger");
+            console.log(error);
+        }
 }
 const onChange=(e)=>{
     setCredentials({...credentials ,[e.target.name]:e.target.value })

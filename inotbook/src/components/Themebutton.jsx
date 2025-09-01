@@ -8,16 +8,18 @@ const ThemeToggle = () => {
   return (
     <div className="d-flex justify-content-center my-2 mx-4">
       <div
-        onClick={() => {setTheme(theme === "dark"? "light" : "dark");
-          console.log("changing theme" , theme)}
-        }
+        onClick={ () => {
+              const newTheme = theme === "dark" ? "light" : "dark";
+              setTheme(newTheme);
+              localStorage.setItem("theme", newTheme);
+        }}
         style={{
           width: "70px",
           height: "34px",
           borderRadius: "50px",
           background: theme==='dark'
-            ? "linear-gradient(135deg, #0f172a, #1e293b)" // dark bluish
-            : "linear-gradient(135deg, #e0e7ff, #f8fafc)", // light
+            ? "linear-gradient(135deg, #0f172a, #1e293b)" 
+            : "linear-gradient(135deg, #e0e7ff, #f8fafc)", 
           display: "flex",
           alignItems: "center",
           padding: "4px",

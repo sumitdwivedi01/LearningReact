@@ -8,6 +8,7 @@ const SignUp = ({showAlert}) => {
     const handleClickSubmit= async(e)=>{
       e.preventDefault();
       const {name , email , password}=credentials;
+      try {
         const response = await fetch("http://localhost:5000/api/auth/createuser" ,{
                 method:'POST',
                 headers:{
@@ -26,6 +27,10 @@ const SignUp = ({showAlert}) => {
     else{
       showAlert("Invalid Credentials Try Again with Correct one" ,"danger");
     }
+      } catch (error) {
+         showAlert("SignUp Failed Due To Internal Sever Error" ,"danger");
+         console.log(error);
+      }
 }
 const onChange=(e)=>{
     setCredentials({...credentials ,[e.target.name]:e.target.value })
@@ -52,10 +57,10 @@ const onChange=(e)=>{
                     <label htmlFor="cpassword" className={`form-label text-${theme==='dark'?'light':'dark'}`}  >Confirm Password</label>
                     <input type="password" className="form-control" id="cpassword" name="cpassword" onChange={onChange} minLength={5} required />
                 </div>
-                <button disabled={credentials.password !== credentials.cpassword || credentials.password.length < 5}  type="submit" className="btn btn-primary" >Get Started</button>
+                <button disabled={credentials.password !== credentials.cpassword || credentials.password.length < 5 }  type="submit" className="btn btn-primary" >Get Started</button>
             </form>
     </div>
   )
 }
 
-export default SignUp
+export default SignUp;

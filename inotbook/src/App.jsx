@@ -10,6 +10,8 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Navbar from './components/Navbar';
 import { DarkContext } from "./context/Theme/DarkTheme";
+import ViewNote from './components/ViewNote';
+
 
 function App() {
   const {theme} = useContext(DarkContext);
@@ -17,7 +19,6 @@ function App() {
 
   useEffect(() => {
     if (theme === 'dark') {
-    // document.body.style.backgroundImage ="linear-gradient(177.6deg, rgba(20,0,113,1) 15.3%, rgba(1,0,62,1) 91.3%)";
     document.body.style.background="#000B18";
 
   } else {
@@ -39,9 +40,8 @@ function App() {
     <NoteState>
     <>
     <Navbar/>
-    <div className="container alertBox">
+    <div className="line"></div>
       <Alert alert={alert} />
-      </div>
     <div className={`container `}>
     <Routes>
   
@@ -49,6 +49,7 @@ function App() {
         <Route path="/about" element={<About/>} />
         <Route path="/login" element={<Login showAlert={showAlert} />} />
         <Route path="/signup" element={<SignUp showAlert={showAlert} />} />
+        <Route path="/viewnote/:id" element={ <ViewNote />} />
 
       </Routes>      
     </div>

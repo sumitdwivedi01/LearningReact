@@ -11,10 +11,10 @@ const router = express.Router();
       const notes = await Notes.find({user: req.user.id})
       res.json(notes);
 
-   } catch (error) {
+     } catch (error) {
       console.error(error.message);
       res.status(500).send({error:"Internal server error"});
-   }
+    }
  })
  
  //Route 2 : Add a new Note using : POST "api/notes/addnote" Login required
@@ -40,7 +40,8 @@ const router = express.Router();
        const savedNote = await note.save();
 
        res.json(savedNote);
-      } catch (error) {
+      } 
+      catch (error) {
       console.error(error.message);
       res.status(500).send({error:"Internal server error"});            
          }

@@ -9,7 +9,7 @@ function Notes({showAlert}) {
     const {theme} = useContext(DarkContext);
     const context = useContext(NoteContext);
     const navigate = useNavigate()
-    const { notes, getNotes , editNote } = context;
+    const { notes, getNotes , editNote ,errorMsg } = context;
     const [note, setNote] = useState({id:"", title: "", description: "", tag: "" });
     useEffect(() => {
         if(localStorage.getItem('token')){
@@ -20,6 +20,14 @@ function Notes({showAlert}) {
         }
         //eslint-disable-next-line
     }, [])
+
+    useEffect(() => {
+    if (errorMsg.error) {
+        showAlert(errorMsg.msg, "danger");
+    }
+    //eslint-disable-next-line
+    }, [errorMsg]);
+
     const [isDark, setIsDark] = useState(false);
     useEffect(() => {
       setIsDark(theme==='dark'?true:false)
@@ -39,10 +47,16 @@ function Notes({showAlert}) {
     }
     const handleClick = (e) => {
         e.preventDefault();
-        editNote(note.id , note.title , note.description, note.tag);
-        refClose.current.click();
-        showAlert("Note Updated Successfully","success");
-        document.body.classList.remove("lock-scroll");
+        if(errorMsg.error===""){
+
+            editNote(note.id , note.title , note.description, note.tag);
+            refClose.current.click();
+            showAlert("Note Updated Successfully","success");
+            document.body.classList.remove("lock-scroll");
+        }
+        else{
+            showAlert(errorMsg.msg);
+        }
         
     }
 

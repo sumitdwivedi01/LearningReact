@@ -1,54 +1,80 @@
-import React, { useContext} from 'react';
-import NoteContext from '../context/notes/NoteContext';
+import React, { useContext, useMemo } from "react";
+import NoteContext from "../context/notes/NoteContext";
+import { DarkContext } from "../context/Theme/DarkTheme";
+import {Link} from "react-router-dom";
 
 
-function NoteItem({ note ,updateNote , showAlert}) {
-    
-    const indTime = (time) => {
-        const dateobj = new Date(time);
-        const isTime = dateobj.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-        return isTime;
-    }
-     const context = useContext(NoteContext);
-        const { deleteNote } = context;
+const previewWords = (str = "", maxWords = 40) => {
+  const words = (str || "").trim().split(/\s+/);
+  if (words.length <= maxWords) return str;
+  return words.slice(0, maxWords).join(" ") + "…";
+};
 
-        const handleDelete=()=>{
-            deleteNote(note._id);
-            showAlert("Note Deleted Successfully","success");
-        }
-        const handleEdit=()=>{
-            updateNote(note);
-            document.body.classList.add("lock-scroll");
-        }
-    return (
-        <div className="col-md-4 d-flex my-3">
-            <div className="card h-100 w-100 d-flex flex-column shadow-sm">
-                <div className="card-header fw-semibold">
-                    {note.tag}
-                </div>
+function NoteItem({ note, updateNote, showAlert }) {
+  const { theme } = useContext(DarkContext);
+  const { deleteNote } = useContext(NoteContext);
 
-                <div className="card-body flex-grow-1 d-flex flex-column">
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                        <h5 className="card-title mb-0 text-start">{note.title}</h5>
-                        <div className="d-flex gap-2">
-                            <button className="btn btn-sm btn-light border-0 p-2 rounded-circle" onClick={handleEdit} title="Edit">
-                                <i className="fa-solid fa-file-pen"  />
-                            </button>
-                            <button className="btn btn-sm btn-light border-0 p-2 rounded-circle" onClick={handleDelete} title="Delete">
-                                <i className="fa-solid fa-trash"  />
-                            </button>
-                        </div>
-                    </div>
+  const indTime = (time) =>
+    new Date(time).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
 
-                    <p className="card-text text-muted">{note.description}</p>
-                </div>
+  const handleDelete = () => {
+    deleteNote(note._id);
+    showAlert("Note Deleted Successfully", "success");
+  };
 
-                <div className="card-footer text-muted small mt-auto">
-                    Last updated: {indTime(note.date)}
-                </div>
-            </div>
+  const handleEdit = () => {
+    updateNote(note);
+    document.body.classList.add("lock-scroll");
+  };
+
+  const descPreview = useMemo(
+    () => previewWords(note?.description, 40),
+    [note?.description]
+  );
+
+  return (
+    <div className="col-md-4 d-flex my-3">
+      <div
+        className={`card note-card h-100 w-100 d-flex flex-column border-0 ${
+          theme === "dark" ? "note-dark" : "note-light"
+        }`}
+      >
+        <div className="card-header d-flex align-items-start justify-content-between">
+          <span className="note-tag">{note?.tag || "note"}</span>
+          <div className="d-flex gap-2">
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={handleEdit}
+              aria-label="Edit note"
+              title="Edit"
+            >
+              <i className="fa-solid fa-pen-to-square" />
+            </button>
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={handleDelete}
+              aria-label="Delete note"
+              title="Delete"
+            >
+              <i className="fa-solid fa-trash" />
+            </button>
+          </div>
         </div>
-    )
+
+        <div className="card-body flex-grow-1 d-flex flex-column">
+          <h5 className="note-title">{note?.title}</h5>
+          <p className="note-desc">{descPreview}</p>
+        </div>
+
+        <div className="d-flex align-items-center justify-content-between px-3 pb-3">
+          <Link type="button" className={`btn-view`} to={`/viewnote/${note._id}`} style={{textDecoration:"none"}}>View Note</Link>
+          <span className="note-date">🕒 {indTime(note?.date)}</span>
+        </div>
+      </div>
+    </div>
+  );  
 }
 
-export default NoteItem
+export default NoteItem;
